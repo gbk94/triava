@@ -4,8 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 
+import '../local/shared_prefs.dart';
+
 class ContractManager {
-  static const contractAddress = "0xb31EFEB6B13FD966126f41F3F3340501b985A28c";
+  static const contractAddress = "0x0fD30aBFDEcD49B46e44BCbc2E3A5De133e55597";
 
   static Future<DeployedContract> loadContract() async {
     String abiCode = await rootBundle.loadString("assets/abi.json");
@@ -32,9 +34,59 @@ class ContractManager {
     return data;
   }
 
+  static Future<String> submitTransactionPayable(String functionName, List<dynamic> args,BigInt value) async {
+    EthPrivateKey credentials = EthPrivateKey.fromHex(SharedPrefs.instance.privateKey);
+    DeployedContract contract = await loadContract();
+    var apiUrl =
+        "https://api.avax-test.network/ext/bc/C/rpc";
+    final ethFunction = contract.function(functionName);
+    var httpClient = Client();
+    var ethClient = Web3Client(apiUrl, httpClient);
+    var result = await ethClient.sendTransaction(
+      credentials,
+      Transaction.callContract(
+        contract: contract,
+        function: ethFunction,
+        parameters: args,
+        value: EtherAmount.fromUnitAndValue(EtherUnit.wei, value),
+
+      ),
+      chainId: 43113
+    );
+    print(result);
+    return result;
+  }
+
+  Future<String> submitTransaction(String functionName, List<dynamic> args) async {
+    EthPrivateKey credentials = EthPrivateKey.fromHex(SharedPrefs.instance.privateKey);
+    DeployedContract contract = await loadContract();
+    var apiUrl =
+        "https://api.avax-test.network/ext/bc/C/rpc";
+    final ethFunction = contract.function(functionName);
+    var httpClient = Client();
+    var ethClient = Web3Client(apiUrl, httpClient);
+    var result = await ethClient.sendTransaction(
+      credentials,
+      Transaction.callContract(
+          contract: contract,
+          function: ethFunction,
+          parameters: args
+      ),
+    );
+    print(result);
+    return result;
+  }
+
+
   static double weiToAvax(dynamic data) {
     final wei = data as BigInt;
     final avax = wei.toDouble() / pow(10, 18);
     return avax;
+  }
+
+  static BigInt avaxToWei(dynamic data) {
+    final avax = double.parse(data);
+    final wei = BigInt.from(avax.toDouble() * pow(10, 18));
+    return wei;
   }
 }

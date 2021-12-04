@@ -76,7 +76,7 @@ class WalletView extends StatelessWidget {
                       Row(
                         children: [
                           const Text(
-                            "Avax on Stake:",
+                            "Avax on Creator Stake:",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
@@ -84,7 +84,26 @@ class WalletView extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            viewModel.stakings + " AVAX",
+                            viewModel.creatorStaking + " AVAX",
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Text(
+                            "Avax on Validator Stake:",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const Spacer(),
+                          Text(
+                            viewModel.validatorStaking + " AVAX",
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
@@ -153,10 +172,10 @@ class WalletView extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 TriviaButton(
-                    buttonTitle: "Stake Avax (Creator)", onPressed: () {}),
+                    buttonTitle: "Stake Avax (Creator)", onPressed: () {viewModel.stakeForCreator();}),
                 const SizedBox(height: 20),
                 TriviaButton(
-                    buttonTitle: "Stake Avax (Validator)", onPressed: () {}),
+                    buttonTitle: "Stake Avax (Validator)", onPressed: () {viewModel.stakeForCreator();}),
               ],
             )));
   }

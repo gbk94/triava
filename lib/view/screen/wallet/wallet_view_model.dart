@@ -11,7 +11,8 @@ class WalletViewModel extends BaseViewModel {
   var balance = "0";
   var minValidatorAvax = "";
   var minCreatorAvax = "";
-  var stakings = "0";
+  var validatorStaking = "0";
+  var creatorStaking = "0";
 
   Future<void> init() async {
     await Future.wait([
@@ -20,6 +21,8 @@ class WalletViewModel extends BaseViewModel {
       getCreateAmount(),
       getValidateAmount(),
       getStaking(),
+      stakeForCreator(),
+      stakeForValidator()
     ]);
     notify();
   }
@@ -38,7 +41,7 @@ class WalletViewModel extends BaseViewModel {
         await walletAddress.getPublicKey(SharedPrefs.instance.privateKey);
 
     final avaxBalance = await ethClient.getBalance(publicKey);
-    balance = avaxBalance.getInEther.toString();
+    balance = ContractManager.weiToAvax(avaxBalance.getInWei).toString();
     notify();
     // print(ethClient.getGasPrice().toString());
     // EtherAmount etherAmount = await ethClient.getBalance(publicKey);
@@ -57,15 +60,30 @@ class WalletViewModel extends BaseViewModel {
   }
 
   Future<void> getStaking() async {
-    List<dynamic> data = await ContractManager.query("creatorStakings", []);
-    final creatorStaking = ContractManager.weiToAvax(data[0]).toString();
+    WalletAddress walletAddress = WalletAddress();
+    EthereumAddress publicKey =
+    await walletAddress.getPublicKey(SharedPrefs.instance.privateKey);
 
+    List<dynamic> data = await ContractManager.query("creatorStakings", [publicKey]);
+    print('data ${data[0]}');
+    final creatorStakingRes = ContractManager.weiToAvax(data[0]);
+    creatorStaking  = creatorStakingRes.toString();
     List<dynamic> dataVal =
-        await ContractManager.query("validatorStakings", []);
-    final validatorStakings = ContractManager.weiToAvax(dataVal[0]).toString();
-    stakings = (creatorStaking + validatorStakings).toString();
+        await ContractManager.query("validatorStakings", [publicKey]);
+
+    print('dataVal ${dataVal[0]}');
+    final validatorStakingRes = ContractManager.weiToAvax(dataVal[0]);
+      validatorStaking = validatorStakingRes.toString();
     notify();
   }
 
-  Future<void> stakeAvax() async {}
+  Future<void> stakeForCreator() async {
+    final valx = ContractManager.avaxToWei(minCreatorAvax);
+    await ContractManager.submitTransactionPayable("creatorStake",[], valx);
+  }
+
+  Future<void> stakeForValidator() async {
+    final valx = BigInt.from(double.parse(minValidatorAvax));
+    await ContractManager.submitTransactionPayable("validatorStake",[], valx);
+  }
 }

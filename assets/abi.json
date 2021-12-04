@@ -33,6 +33,11 @@
                 "internalType": "uint256",
                 "name": "_endTime",
                 "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_entryFee",
+                "type": "uint256"
             }
         ],
         "name": "createQuiz",
@@ -43,6 +48,19 @@
     {
         "inputs": [],
         "name": "creatorStake",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "quizId",
+                "type": "uint256"
+            }
+        ],
+        "name": "joinQuiz",
         "outputs": [],
         "stateMutability": "payable",
         "type": "function"
@@ -76,6 +94,24 @@
         ],
         "name": "CreatorStaking",
         "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "quizId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes32[]",
+                "name": "_correctOptionHashes",
+                "type": "bytes32[]"
+            }
+        ],
+        "name": "finalizeQuiz",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
         "anonymous": false,
@@ -137,6 +173,24 @@
     {
         "inputs": [],
         "name": "renounceOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "quizId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes32[]",
+                "name": "_optionHashes",
+                "type": "bytes32[]"
+            }
+        ],
+        "name": "submitQuiz",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -268,24 +322,14 @@
         "name": "options",
         "outputs": [
             {
-                "internalType": "address",
-                "name": "borrowerAddress",
-                "type": "address"
+                "internalType": "string",
+                "name": "text",
+                "type": "string"
             },
             {
-                "internalType": "uint256",
-                "name": "creditRuleID",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "timestamp",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
+                "internalType": "bool",
+                "name": "isCorrect",
+                "type": "bool"
             }
         ],
         "stateMutability": "view",
@@ -356,6 +400,11 @@
             {
                 "internalType": "uint256",
                 "name": "endTime",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "entryFee",
                 "type": "uint256"
             }
         ],
