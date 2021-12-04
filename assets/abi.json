@@ -58,11 +58,16 @@
                 "internalType": "uint256",
                 "name": "quizId",
                 "type": "uint256"
+            },
+            {
+                "internalType": "bytes32[]",
+                "name": "_correctOptionHashes",
+                "type": "bytes32[]"
             }
         ],
-        "name": "joinQuiz",
+        "name": "finalizeQuiz",
         "outputs": [],
-        "stateMutability": "payable",
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -101,16 +106,11 @@
                 "internalType": "uint256",
                 "name": "quizId",
                 "type": "uint256"
-            },
-            {
-                "internalType": "bytes32[]",
-                "name": "_correctOptionHashes",
-                "type": "bytes32[]"
             }
         ],
-        "name": "finalizeQuiz",
+        "name": "joinQuiz",
         "outputs": [],
-        "stateMutability": "nonpayable",
+        "stateMutability": "payable",
         "type": "function"
     },
     {
@@ -246,6 +246,64 @@
         ],
         "name": "ValidatorStaking",
         "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "questionHash",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "string",
+                "name": "optionText",
+                "type": "string"
+            },
+            {
+                "internalType": "bool",
+                "name": "isCorrect",
+                "type": "bool"
+            },
+            {
+                "internalType": "address",
+                "name": "creatorAddress",
+                "type": "address"
+            }
+        ],
+        "name": "calculateOptionHash",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "prefixedHash",
+                "type": "bytes32"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "qText",
+                "type": "string"
+            },
+            {
+                "internalType": "address",
+                "name": "creatorAddress",
+                "type": "address"
+            }
+        ],
+        "name": "calculateQuestionHash",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "prefixedHash",
+                "type": "bytes32"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
     },
     {
         "inputs": [

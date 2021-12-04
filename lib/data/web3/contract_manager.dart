@@ -7,7 +7,7 @@ import 'package:web3dart/web3dart.dart';
 import '../local/shared_prefs.dart';
 
 class ContractManager {
-  static const contractAddress = "0x0fD30aBFDEcD49B46e44BCbc2E3A5De133e55597";
+  static const contractAddress = "0x74A9CF88B46c195Bf3F094CF98BD78173FC49448";
 
   static Future<DeployedContract> loadContract() async {
     String abiCode = await rootBundle.loadString("assets/abi.json");
@@ -34,49 +34,46 @@ class ContractManager {
     return data;
   }
 
-  static Future<String> submitTransactionPayable(String functionName, List<dynamic> args,BigInt value) async {
-    EthPrivateKey credentials = EthPrivateKey.fromHex(SharedPrefs.instance.privateKey);
+  static Future<String> submitTransactionPayable(
+      String functionName, List<dynamic> args, BigInt value) async {
+    EthPrivateKey credentials =
+        EthPrivateKey.fromHex(SharedPrefs.instance.privateKey);
     DeployedContract contract = await loadContract();
-    var apiUrl =
-        "https://api.avax-test.network/ext/bc/C/rpc";
+    var apiUrl = "https://api.avax-test.network/ext/bc/C/rpc";
     final ethFunction = contract.function(functionName);
     var httpClient = Client();
     var ethClient = Web3Client(apiUrl, httpClient);
     var result = await ethClient.sendTransaction(
-      credentials,
-      Transaction.callContract(
-        contract: contract,
-        function: ethFunction,
-        parameters: args,
-        value: EtherAmount.fromUnitAndValue(EtherUnit.wei, value),
-
-      ),
-      chainId: 43113
-    );
-    print(result);
-    return result;
-  }
-
-  Future<String> submitTransaction(String functionName, List<dynamic> args) async {
-    EthPrivateKey credentials = EthPrivateKey.fromHex(SharedPrefs.instance.privateKey);
-    DeployedContract contract = await loadContract();
-    var apiUrl =
-        "https://api.avax-test.network/ext/bc/C/rpc";
-    final ethFunction = contract.function(functionName);
-    var httpClient = Client();
-    var ethClient = Web3Client(apiUrl, httpClient);
-    var result = await ethClient.sendTransaction(
-      credentials,
-      Transaction.callContract(
+        credentials,
+        Transaction.callContract(
           contract: contract,
           function: ethFunction,
-          parameters: args
-      ),
-    );
+          parameters: args,
+          value: EtherAmount.fromUnitAndValue(EtherUnit.wei, value),
+        ),
+        chainId: 43113);
     print(result);
     return result;
   }
 
+  static Future<String> submitTransaction(
+      String functionName, List<dynamic> args) async {
+    EthPrivateKey credentials =
+        EthPrivateKey.fromHex(SharedPrefs.instance.privateKey);
+    DeployedContract contract = await loadContract();
+    var apiUrl = "https://api.avax-test.network/ext/bc/C/rpc";
+    final ethFunction = contract.function(functionName);
+    var httpClient = Client();
+    var ethClient = Web3Client(apiUrl, httpClient);
+    var result = await ethClient.sendTransaction(
+      credentials,
+      Transaction.callContract(
+          contract: contract, function: ethFunction, parameters: args),
+      chainId: 43113,
+    );
+    print(result);
+    return result;
+  }
 
   static double weiToAvax(dynamic data) {
     final wei = data as BigInt;

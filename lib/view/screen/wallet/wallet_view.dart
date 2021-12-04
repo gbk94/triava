@@ -172,10 +172,16 @@ class WalletView extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 TriviaButton(
-                    buttonTitle: "Stake Avax (Creator)", onPressed: () {viewModel.stakeForCreator();}),
+                    buttonTitle: "Stake Avax (Creator)",
+                    onPressed: () {
+                      viewModel.stakeForCreator();
+                    }),
                 const SizedBox(height: 20),
                 TriviaButton(
-                    buttonTitle: "Stake Avax (Validator)", onPressed: () {viewModel.stakeForCreator();}),
+                    buttonTitle: "Stake Avax (Validator)",
+                    onPressed: () {
+                      viewModel.stakeForValidator();
+                    }),
               ],
             )));
   }

@@ -96,7 +96,8 @@ class ValidateQuestionView extends StatelessWidget {
                           ),
                           const SizedBox(height: 30),
                           TriviaButton(
-                              buttonTitle: "Create Question", onPressed: () {}),
+                              buttonTitle: "Validate Question",
+                              onPressed: () {}),
                           const SizedBox(height: 20),
                           TriviaButton(
                               buttonTitle: "Don't Validate", onPressed: () {}),

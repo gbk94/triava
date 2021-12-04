@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:trivia/route/args/dialog_args.dart';
+import 'package:trivia/utils/dialog_utils.dart';
 import 'package:trivia/utils/interaction_mixin.dart';
 import 'package:trivia/utils/navigator_utils.dart';
 import 'base_view_model.dart';
@@ -43,7 +46,7 @@ class _ViewModelBuilder<T extends ChangeNotifier>
 
       if (viewModel is InteractionMixin) {
         (viewModel as InteractionMixin).navigate = _navigate;
-        // (viewModel as InteractionMixin).dialog = _dialog;
+        (viewModel as InteractionMixin).dialog = _dialog;
         (viewModel as InteractionMixin).pop = _pop;
 
         (viewModel as InteractionMixin).loadingOverlay = _loading;
@@ -64,9 +67,9 @@ class _ViewModelBuilder<T extends ChangeNotifier>
         args: args, clearStack: clearStack);
   }
 
-  // Future<R?> _dialog<R extends Object?>(final DialogArgs args) {
-  //   return DialogUtil.instance<R>(context, args);
-  // }
+  Future<R?> _dialog<R extends Object?>(final DialogArgs args) {
+    return DialogUtil.instance<R>(context, args);
+  }
 
   void _pop<R extends Object?>([R? result]) {
     return NavigatorUtil.instance.pop<R>(context, result);
@@ -107,20 +110,19 @@ class _ViewModelBuilder<T extends ChangeNotifier>
           builder: (context, viewModel, _) => Stack(
             children: [
               widget.builder(context, viewModel),
-              // if ((viewModel is BaseViewModel) && viewModel.showLoading)
-              //   Container(
-              //     color: SovtajSepetiColor.loadingOverlayBackground,
-              //     child: Column(
-              //       mainAxisSize: MainAxisSize.max,
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       children: [
-              //         Center(
-              //           child: Lottie.asset(AssetPaths.sovtajsepetiLoading,
-              //               width: 200, height: 200),
-              //         )
-              //       ],
-              //     ),
-              //   )
+              if ((viewModel is BaseViewModel) && viewModel.showLoading)
+                Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Lottie.asset('assets/loadingAnimation.json',
+                            width: 200, height: 200),
+                      )
+                    ],
+                  ),
+                )
             ],
           ),
         ),

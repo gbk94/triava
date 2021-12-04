@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trivia/data/networking/api_error.dart';
+import 'package:trivia/route/args/dialog_args.dart';
 import 'package:trivia/utils/interaction_mixin.dart';
 
 class BaseViewModel<VA> extends ChangeNotifier with InteractionMixin {
@@ -50,8 +51,7 @@ class BaseViewModel<VA> extends ChangeNotifier with InteractionMixin {
         if (showError) {
           //Hadle Error
           debugPrint("HATA:" + e.message);
-          // dialog(DialogArgs(
-          //     description: e.message, title: SovtajSepetiLocalized.error));
+          dialog(DialogArgs(description: e.message, title: "Ops !"));
         }
       }
     } finally {

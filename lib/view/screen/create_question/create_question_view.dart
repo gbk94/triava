@@ -54,7 +54,9 @@ class CreateQuestionView extends StatelessWidget {
                                 ),
                                 TextField(
                                     cursorColor: Colors.black,
-                                    onChanged: (value) {},
+                                    onChanged: (value) {
+                                      viewModel.question = value;
+                                    },
                                     keyboardType: TextInputType.multiline,
                                     maxLines: null,
                                     decoration: const InputDecoration(
@@ -81,16 +83,28 @@ class CreateQuestionView extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 AnswerTextField(
-                                    onChange: (value) {}, title: "A"),
+                                    onChange: (value) {
+                                      viewModel.optionA = value;
+                                    },
+                                    title: "A"),
                                 const SizedBox(height: 10),
                                 AnswerTextField(
-                                    onChange: (value) {}, title: "B"),
+                                    onChange: (value) {
+                                      viewModel.optionB = value;
+                                    },
+                                    title: "B"),
                                 const SizedBox(height: 10),
                                 AnswerTextField(
-                                    onChange: (value) {}, title: "C"),
+                                    onChange: (value) {
+                                      viewModel.optionC = value;
+                                    },
+                                    title: "C"),
                                 const SizedBox(height: 10),
                                 AnswerTextField(
-                                    onChange: (value) {}, title: "D"),
+                                    onChange: (value) {
+                                      viewModel.optionD = value;
+                                    },
+                                    title: "D"),
                                 const SizedBox(height: 30),
                                 Row(
                                   children: [
@@ -105,7 +119,9 @@ class CreateQuestionView extends StatelessWidget {
                                     Expanded(
                                         child: PickerView(
                                       items: viewModel.questionAnswerLabels,
-                                      onValueChanged: (index) {},
+                                      onValueChanged: (index) {
+                                        viewModel.trueAnswerIndex = index;
+                                      },
                                     ))
                                   ],
                                 )
@@ -114,7 +130,10 @@ class CreateQuestionView extends StatelessWidget {
                           ),
                           const SizedBox(height: 30),
                           TriviaButton(
-                              buttonTitle: "Create Question", onPressed: () {}),
+                              buttonTitle: "Create Question",
+                              onPressed: () {
+                                viewModel.createQuestion();
+                              }),
                         ],
                       )),
                 ),
