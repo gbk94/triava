@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:trivia/data/local/shared_prefs.dart';
+import 'package:trivia/data/networking/rest_service.dart';
 import 'package:trivia/data/web3/contract_manager.dart';
 import 'package:trivia/data/web3/models/question.dart';
 import 'package:trivia/route/args/dialog_args.dart';
@@ -38,9 +42,6 @@ class CreateQuestionViewModel extends BaseViewModel {
         choices[trueAnswerIndex!].isTrue = true;
         Question newQuestion = Question(question: question, choices: choices);
 
-        final address =
-            await WalletAddress().getPublicKey(SharedPrefs.instance.privateKey);
-
         EthPrivateKey credentials =
             EthPrivateKey.fromHex(SharedPrefs.instance.privateKey);
 
@@ -58,17 +59,28 @@ class CreateQuestionViewModel extends BaseViewModel {
             newQuestion.choices[i].isTrue,
             credentials.address,
           ]);
-          optionHashes.add(optionHash);
+          optionHashes.add(optionHash[0]);
         }
 
         print(optionHashes);
+        print('Uint8List' +
+            Uint8List.fromList(data[0].cast<int>().toList()).toString());
 
         final response = await ContractManager.submitTransaction(
           "createQuestion",
-          [Uint8List.fromList(data[0].cast<int>().toList())],
+          [Uint8List.fromList(data[0].cast<int>().toList()), optionHashes],
         );
-        print(response);
+        print("create:" + response);
+        createBackQuestion(newQuestion);
       });
     }
+  }
+
+  Future<void> createBackQuestion(Question newQuestion) async {
+    print(newQuestion.choices.length);
+    Dio client = await RestService().getClient();
+    final response =
+        await client.post('/questions', data: newQuestion.toJson());
+    debugPrint(jsonEncode(response.data));
   }
 }

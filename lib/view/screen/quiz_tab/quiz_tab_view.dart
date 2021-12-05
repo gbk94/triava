@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trivia/res/TAColors.dart';
 import 'package:trivia/view/common/view_model_builder.dart';
 import 'package:trivia/view/common/widgets/trivia_button.dart';
-import 'package:trivia/view/screen/quiz_tab/quiz_view_model.dart';
+import 'package:trivia/view/screen/quiz_tab/quiz_tab_view_model.dart';
 
 class QuizTabView extends StatelessWidget {
   const QuizTabView({Key? key}) : super(key: key);
@@ -53,7 +53,11 @@ class QuizTabView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-                TriviaButton(buttonTitle: "Join Quiz", onPressed: () {}),
+                TriviaButton(
+                    buttonTitle: "Join Quiz",
+                    onPressed: () {
+                      viewModel.getQuizes();
+                    }),
               ],
             )));
   }

@@ -6,7 +6,7 @@ import 'package:trivia/view/common/widgets/bottom_navigation_bar_item.widget.dar
 import 'package:trivia/view/screen/create_earn/create_earn_view.dart';
 import 'package:trivia/view/screen/create_question/create_question_view.dart';
 import 'package:trivia/view/screen/main_tab/main_tab_view_model.dart';
-import 'package:trivia/view/screen/quiz_tab/quiz_view.dart';
+import 'package:trivia/view/screen/quiz_tab/quiz_tab_view.dart';
 import 'package:trivia/view/screen/wallet/wallet_view.dart';
 
 class MainTabView extends StatefulWidget {

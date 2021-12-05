@@ -5,6 +5,11 @@
                 "internalType": "bytes32",
                 "name": "questionHash",
                 "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32[]",
+                "name": "_optionHashes",
+                "type": "bytes32[]"
             }
         ],
         "name": "createQuestion",
@@ -73,6 +78,19 @@
     {
         "inputs": [
             {
+                "internalType": "uint256",
+                "name": "quizId",
+                "type": "uint256"
+            }
+        ],
+        "name": "joinQuiz",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
                 "internalType": "address",
                 "name": "_triavaManager",
                 "type": "address"
@@ -99,19 +117,6 @@
         ],
         "name": "CreatorStaking",
         "type": "event"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "quizId",
-                "type": "uint256"
-            }
-        ],
-        "name": "joinQuiz",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
     },
     {
         "anonymous": false,
@@ -171,6 +176,31 @@
         "type": "event"
     },
     {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "validator",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "bytes32",
+                "name": "questionHash",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "internalType": "bool",
+                "name": "isApproved",
+                "type": "bool"
+            }
+        ],
+        "name": "QuestionValidated",
+        "type": "event"
+    },
+    {
         "inputs": [],
         "name": "renounceOwnership",
         "outputs": [],
@@ -214,6 +244,11 @@
                 "internalType": "bytes32",
                 "name": "questionHash",
                 "type": "bytes32"
+            },
+            {
+                "internalType": "bool",
+                "name": "isApproved",
+                "type": "bool"
             }
         ],
         "name": "validateQuestion",
@@ -306,6 +341,19 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "creatorRate",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "address",
@@ -344,8 +392,40 @@
         "type": "function"
     },
     {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "quizId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getQuizParticipants",
+        "outputs": [
+            {
+                "internalType": "address[]",
+                "name": "",
+                "type": "address[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [],
         "name": "minCreatorStaking",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "minimumVoteRequired",
         "outputs": [
             {
                 "internalType": "uint256",
@@ -477,6 +557,19 @@
                 "internalType": "address",
                 "name": "",
                 "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "validatorRate",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",

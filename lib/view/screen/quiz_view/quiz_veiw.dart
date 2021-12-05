@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:trivia/res/TAColors.dart';
 import 'package:trivia/view/common/view_model_builder.dart';
 import 'package:trivia/view/common/widgets/trivia_button.dart';
+import 'package:trivia/view/screen/quiz_view/quiz_view_model.dart';
+import 'package:trivia/view/screen/quiz_view/widget/select_answer.dart';
 import 'package:trivia/view/screen/validate_question/validate_question_view_model.dart';
 import 'package:trivia/view/screen/validate_question/widget/answer_text.dart';
 
-class ValidateQuestionView extends StatelessWidget {
-  const ValidateQuestionView({Key? key}) : super(key: key);
+class QuizView extends StatelessWidget {
+  const QuizView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<ValidateQuestionViewModel>(
-        initViewModel: () => ValidateQuestionViewModel(),
-        onModelReady: (viewModel) => viewModel.getQuestion(),
+    return ViewModelBuilder<QuizViewModel>(
+        initViewModel: () => QuizViewModel(),
         builder: (context, viewModel) => Container(
               color: TAColors.red,
               child: SafeArea(
@@ -29,7 +30,7 @@ class ValidateQuestionView extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           const Text(
-                            "Create & Earn",
+                            "Quiz",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 25,
@@ -62,7 +63,11 @@ class ValidateQuestionView extends StatelessWidget {
                                               color: Colors.black, width: 3),
                                           borderRadius:
                                               BorderRadius.circular(10)),
-                                      child: Text(viewModel.question.question),
+                                      child: Text(viewModel
+                                          .args
+                                          .upcomingEvent
+                                          .questions[viewModel.args.index]
+                                          .question),
                                     )),
                                   ],
                                 ),
@@ -74,45 +79,33 @@ class ValidateQuestionView extends StatelessWidget {
                                       fontSize: 25,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                const SizedBox(height: 10),
-                                AnswerText(
-                                  answer: viewModel.question.choices[0].text,
-                                  title: "A",
-                                  isTrue: viewModel.question.choices[0].isTrue,
-                                ),
-                                const SizedBox(height: 10),
-                                AnswerText(
-                                  answer: viewModel.question.choices[1].text,
-                                  title: "B",
-                                  isTrue: viewModel.question.choices[1].isTrue,
-                                ),
-                                const SizedBox(height: 10),
-                                AnswerText(
-                                  answer: viewModel.question.choices[2].text,
-                                  title: "c",
-                                  isTrue: viewModel.question.choices[2].isTrue,
-                                ),
-                                const SizedBox(height: 10),
-                                AnswerText(
-                                  answer: viewModel.question.choices[3].text,
-                                  title: "D",
-                                  isTrue: viewModel.question.choices[3].isTrue,
-                                ),
-                                const SizedBox(height: 30),
+                                SelectAnswer(
+                                    choices: viewModel
+                                        .args
+                                        .upcomingEvent
+                                        .questions[viewModel.args.index]
+                                        .choices,
+                                    onValueSelected: (value) {
+                                      viewModel.args.answers.add(viewModel
+                                          .args
+                                          .upcomingEvent
+                                          .questions[viewModel.args.index]
+                                          .choices[value]
+                                          .id);
+                                      viewModel.notify();
+                                    }),
                               ],
                             ),
                           ),
                           const SizedBox(height: 30),
                           TriviaButton(
-                              buttonTitle: "Validate Question",
+                              buttonTitle: viewModel.args.index + 1 <
+                                      viewModel
+                                          .args.upcomingEvent.questions.length
+                                  ? "Next Question"
+                                  : "Submit Quiz",
                               onPressed: () {
-                                viewModel.validateQuestion(true);
-                              }),
-                          const SizedBox(height: 20),
-                          TriviaButton(
-                              buttonTitle: "Don't Validate",
-                              onPressed: () {
-                                viewModel.validateQuestion(false);
+                                viewModel.nextQuestion();
                               }),
                         ],
                       )),

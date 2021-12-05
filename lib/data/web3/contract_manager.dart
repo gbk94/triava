@@ -7,7 +7,7 @@ import 'package:web3dart/web3dart.dart';
 import '../local/shared_prefs.dart';
 
 class ContractManager {
-  static const contractAddress = "0x74A9CF88B46c195Bf3F094CF98BD78173FC49448";
+  static const contractAddress = "0x7Af9b65bA5f239612D5879b12221a97649A3caC4";
 
   static Future<DeployedContract> loadContract() async {
     String abiCode = await rootBundle.loadString("assets/abi.json");

@@ -3,6 +3,7 @@ import 'package:trivia/view/screen/create_question/create_question_view.dart';
 import 'package:trivia/view/screen/generate_mnemonic/generate_mnemonic_view.dart';
 import 'package:trivia/view/screen/generate_wallet/generate_wallet_view.dart';
 import 'package:trivia/view/screen/main_tab/main_tab_view.dart';
+import 'package:trivia/view/screen/quiz_view/quiz_veiw.dart';
 import 'package:trivia/view/screen/validate_question/validate_question_view.dart';
 
 class Routes {
@@ -11,6 +12,7 @@ class Routes {
   static const mainTab = "mainTab";
   static const createQuestion = "createQuestion";
   static const validateQuestion = "validateQuestion";
+  static const quiz = "quiz";
 }
 
 Widget? createView(String route) {
@@ -25,6 +27,8 @@ Widget? createView(String route) {
       return const CreateQuestionView();
     case Routes.validateQuestion:
       return const ValidateQuestionView();
+    case Routes.quiz:
+      return const QuizView();
     default:
   }
 }
