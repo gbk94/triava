@@ -41,7 +41,7 @@ class GenerateMnemonicView extends StatelessWidget {
                         const SizedBox(height: 40),
                         Container(
                           padding: const EdgeInsets.all(20),
-                          height: 200,
+                          height: 300,
                           color: Colors.white,
                           child: Text(viewModel.mnemonic,
                               textAlign: TextAlign.center,
